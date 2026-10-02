@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Laporan Kegiatan Wasit Bola Voli - PBVSI Lumajang</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsPDF untuk Export PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a', // Blue-900 (Khas Organisasi)
+                        secondary: '#d97706', // Amber-600
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased pb-12">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="bg-primary text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-secondary text-white p-2.5 rounded-xl text-xl font-bold shadow">
+                    <i class="fa-solid fa-whistle"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-black tracking-wide">PBVSI KABUPATEN LUMAJANG</h1>
+                    <p class="text-xs text-blue-200">Sistem Informasi Laporan Kegiatan Wasit Bola Voli</p>
+                </div>
+            </div>
+            <div class="hidden sm:block text-right">
+                <span class="text-xs bg-blue-800 text-blue-100 px-3 py-1 rounded-full font-semibold">Official Form 2026</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-5xl mx-auto px-4 mt-8">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            
+            <!-- FORM BANNER -->
+            <div class="bg-slate-900 text-white p-6 sm:p-8">
+                <h2 class="text-xl sm:text-2xl font-extrabold mb-1">FORMULIR LAPORAN TUGAS WASIT</h2>
+                <p class="text-slate-400 text-sm">Isi data laporan pertandingan dengan lengkap dan benar setelah tugas pertandingan selesai dilaksanakan.</p>
+            </div>
+
+            <!-- FORM UTAMA -->
+            <form id="formLaporanWasit" class="p-6 sm:p-8 space-y-8">
+                
+                <!-- BAGIAN 1: PETUGAS / WASIT -->
+                <div>
+                    <h3 class="text-base font-bold text-primary border-b pb-2 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-users-gear"></i>
+                        <span>1. Petugas / Perangkat Pertandingan</span>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nama Wasit 1 *</label>
+                            <input type="text" id="wasit1" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Nama lengkap wasit 1">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nama Wasit 2 *</label>
+                            <input type="text" id="wasit2" required class="w-full px-4 py-3.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Nama lengkap wasit 2">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Pencatat (Scorer) *</label>
+                            <input type="text" id="pencatat" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Nama petugas pencatat">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Petugas Lain (Linesman / Lainnya)</label>
+                            <input type="text" id="petugasLain" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Contoh: Hakim garis / pengawas">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAGIAN 2: DETAIL PERTANDINGAN -->
+                <div>
+                    <h3 class="text-base font-bold text-primary border-b pb-2 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span>2. Detail Waktu & Tempat Pertandingan</span>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="sm:col-span-3">
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nama Turnamen / Kejuaraan *</label>
+                            <input type="text" id="namaTurnamen" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Contoh: Bupati Cup Voli Antar Klub Lumajang">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tanggal Pelaksanaan *</label>
+                            <input type="date" id="tanggal" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tempat Pertandingan / GOR *</label>
+                            <input type="text" id="tempat" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Contoh: GOR Indoor Lumajang">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Jam Mulai *</label>
+                                <input type="time" id="jamMulai" required class="w-full px-2 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Jam Selesai *</label>
+                                <input type="time" id="jamSelesai" required class="w-full px-2 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAGIAN 3: HASIL PERTANDINGAN -->
+                <div>
+                    <h3 class="text-base font-bold text-primary border-b pb-2 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>3. Skor & Hasil Akhir Tim</span>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-center">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tim A (Pertama) *</label>
+                            <input type="text" id="timA" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Nama Tim A">
+                        </div>
+                        <div class="text-center font-black text-slate-400 hidden sm:block">VS</div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tim B (Kedua) *</label>
+                            <input type="text" id="timB" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Nama Tim B">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Pemenang & Kedudukan *</label>
+                            <select id="hasilPemenang" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm bg-white">
+                                <option value="">Pilih Pemenang & Skor</option>
+                                <option value="Tim A Menang 3-0">Tim A Menang (3 - 0)</option>
+                                <option value="Tim A Menang 3-1">Tim A Menang (3 - 1)</option>
+                                <option value="Tim A Menang 3-2">Tim A Menang (3 - 2)</option>
+                                <option value="Tim B Menang 3-0">Tim B Menang (3 - 0)</option>
+                                <option value="Tim B Menang 3-1">Tim B Menang (3 - 1)</option>
+                                <option value="Tim B Menang 3-2">Tim B Menang (3 - 2)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAGIAN 4: CATATAN KHUSUS -->
+                <div>
+                    <h3 class="text-base font-bold text-primary border-b pb-2 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-note-sticky"></i>
+                        <span>4. Catatan Khusus Kejadian Pertandingan</span>
+                    </h3>
+                    <textarea id="catatanKhusus" rows="3" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary focus:outline-none text-sm" placeholder="Tuliskan jika ada insiden, kartu kuning/merah, protes resmi, atau kejadian luar biasa selama pertandingan..."></textarea>
+                </div>
+
+                <!-- BAGIAN 5: UPLOAD FOTO DARI GALERI (LANDSCAPE ONLY, MAX 4MB) -->
+                <div>
+                    <h3 class="text-base font-bold text-primary border-b pb-2 mb-2 flex items-center space-x-2">
+                        <i class="fa-solid fa-images"></i>
+                        <span>5. Lampiran Foto dari Galeri (Wajib Landscape, Maks. 4MB)</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">Pilih file foto yang tersimpan di dalam galeri perangkat Anda (kamera langsung dinonaktifkan).</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <!-- Foto Lapangan 1 -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Foto Pertandingan 1 *</label>
+                            <input type="file" id="foto1" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 cursor-pointer" onchange="validateAndPreview(this, 'preview1')">
+                            <div class="mt-3 relative h-32 bg-slate-200 rounded-lg overflow-hidden flex items-center justify-center border border-slate-300">
+                                <span id="label-preview1" class="text-xs text-slate-400">Pratinjau Foto 1</span>
+                                <img id="preview1" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview 1">
+                            </div>
+                        </div>
+
+                        <!-- Foto Lapangan 2 -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Foto Pertandingan 2 *</label>
+                            <input type="file" id="foto2" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 cursor-pointer" onchange="validateAndPreview(this, 'preview2')">
+                            <div class="mt-3 relative h-32 bg-slate-200 rounded-lg overflow-hidden flex items-center justify-center border border-slate-300">
+                                <span id="label-preview2" class="text-xs text-slate-400">Pratinjau Foto 2</span>
+                                <img id="preview2" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview 2">
+                            </div>
+                        </div>
+
+                        <!-- Foto Score Sheet -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Lembar Score Sheet (Kertas) *</label>
+                            <input type="file" id="fotoScoreSheet" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-50 file:text-secondary hover:file:bg-amber-100 cursor-pointer" onchange="validateAndPreview(this, 'previewSheet')">
+                            <div class="mt-3 relative h-32 bg-slate-200 rounded-lg overflow-hidden flex items-center justify-center border border-slate-300">
+                                <span id="label-previewSheet" class="text-xs text-slate-400">Pratinjau Score Sheet</span>
+                                <img id="previewSheet" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview Sheet">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TOMBOL AKSI SUBMIT / DOWNLOAD PDF -->
+                <div class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row gap-4">
+                    <button type="submit" class="flex-1 bg-secondary hover:bg-amber-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 text-base">
+                        <i class="fa-solid fa-file-pdf text-xl"></i>
+                        <span>Generate & Unduh Laporan PDF (PBVSI)</span>
+                    </button>
+                    <button type="reset" onclick="resetForm()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-4 px-6 rounded-xl transition text-center text-sm">
+                        Reset Formulir
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center mt-12 text-slate-500 text-xs">
+        <p>Aplikasi Resmi Pelaporan Wasit Bola Voli &bull; PBVSI Kabupaten Lumajang &copy; 2026</p>
+    </footer>
+
+    <!-- LOGIC JAVASCRIPT & PDF GENERATOR -->
+    <script>
+        const imagesData = {
+            foto1: null,
+            foto2: null,
+            fotoScoreSheet: null
+        };
+
+        function validateAndPreview(input, previewId) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                if (file.size > 4 * 1024 * 1024) {
+                    alert('Ukuran file terlalu besar! Maksimal ukuran foto adalah 4 MB.');
+                    input.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        if (img.width < img.height) {
+                            alert('Peringatan: Foto yang Anda pilih berorientasi Portrait (Vertikal). Harap pilih foto dari galeri dengan orientasi Landscape (Mendatar)!');
+                        }
+
+                        imagesData[input.id] = e.target.result;
+
+                        const previewElement = document.getElementById(previewId);
+                        const labelElement = document.getElementById('label-' + previewId);
+                        previewElement.src = e.target.result;
+                        previewElement.classList.remove('hidden');
+                        if (labelElement) labelElement.classList.add('hidden');
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('formLaporanWasit').reset();
+            ['preview1', 'preview2', 'previewSheet'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+                document.getElementById('label-' + id).classList.remove('hidden');
+            });
+            Object.keys(imagesData).forEach(k => imagesData[k] = null);
+        }
+
+        document.getElementById('formLaporanWasit').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!imagesData.foto1 || !imagesData.foto2 || !imagesData.fotoScoreSheet) {
+                alert('Mohon pastikan ketiga foto dari galeri sudah dipilih dan diunggah dengan benar!');
+                return;
+            }
+
+            const wasit1 = document.getElementById('wasit1').value;
+            const wasit2 = document.getElementById('wasit2').value;
+            const pencatat = document.getElementById('pencatat').value;
+            const petugasLain = document.getElementById('petugasLain').value || '-';
+            const turnamen = document.getElementById('namaTurnamen').value;
+            const tanggal = document.getElementById('tanggal').value;
+            const tempat = document.getElementById('tempat').value;
+            const jamMulai = document.getElementById('jamMulai').value;
+            const jamSelesai = document.getElementById('jamSelesai').value;
+            const timA = document.getElementById('timA').value;
+            const timB = document.getElementById('timB').value;
+            const hasilPemenang = document.getElementById('hasilPemenang').value;
+            const catatan = document.getElementById('catatanKhusus').value || 'Tidak ada catatan khusus.';
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // HALAMAN 1: LAPORAN TEKS
+            doc.setFillColor(30, 58, 138);
+            doc.rect(0, 0, 210, 32, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(14);
+            doc.text("LAPORAN KEGIATAN WASIT BOLA VOLI", 14, 15);
+            doc.setFontSize(10);
+            doc.text("PBVSI KABUPATEN LUMAJANG", 14, 23);
+
+            doc.setTextColor(30, 41, 59);
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "bold");
+            doc.text("A. INFORMASI PERTANDINGAN & TURNAMEN", 14, 42);
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            let y = 50;
+            const rowH = 7;
+
+            const rowsInfo = [
+                { label: "Nama Turnamen", val: turnamen },
+                { label: "Tanggal / Tempat", val: `${tanggal} / ${tempat}` },
+                { label: "Waktu Pertandingan", val: `${jamMulai} s.d ${jamSelesai} WIB` },
+                { label: "Tim Bertanding", val: `${timA}  VS  ${timB}` },
+                { label: "Hasil Akhir / Pemenang", val: hasilPemenang }
+            ];
+
+            rowsInfo.forEach(item => {
+                doc.setFont("helvetica", "bold");
+                doc.text(item.label, 14, y);
+                doc.text(":", 55, y);
+                doc.setFont("helvetica", "normal");
+                doc.text(item.val, 62, y);
+                y += rowH;
+            });
+
+            y += 4;
+            doc.setFont("helvetica", "bold");
+            doc.text("B. PERANGKAT / PETUGAS WASIT", 14, y);
+            y += 8;
+
+            const rowsWasit = [
+                { label: "Wasit 1", val: wasit1 },
+                { label: "Wasit 2", val: wasit2 },
+                { label: "Pencatat (Scorer)", val: pencatat },
+                { label: "Petugas Lain", val: petugasLain }
+            ];
+
+            rowsWasit.forEach(item => {
+                doc.setFont("helvetica", "bold");
+                doc.text(item.label, 14, y);
+                doc.text(":", 55, y);
+                doc.setFont("helvetica", "normal");
+                doc.text(item.val, 62, y);
+                y += rowH;
+            });
+
+            y += 4;
+            doc.setFont("helvetica", "bold");
+            doc.text("C. CATATAN KHUSUS KEJADIAN", 14, y);
+            y += 7;
+            doc.setFont("helvetica", "normal");
+            
+            const splitCatatan = doc.splitTextToSize(catatan, 180);
+            doc.text(splitCatatan, 14, y);
+            
+            // HALAMAN 2: LAMPIRAN FOTO DOKUMENTASI
+            doc.addPage();
+            doc.setFillColor(30, 58, 138);
+            doc.rect(0, 0, 210, 25, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(14);
+            doc.text("LAMPIRAN FOTO DOKUMENTASI", 14, 16);
+
+            doc.setTextColor(30, 41, 59);
+            doc.setFontSize(11);
+
+            doc.text("1. Foto Pertandingan 1", 14, 38);
+            try {
+                doc.addImage(imagesData.foto1, 'JPEG', 14, 43, 130, 75);
+            } catch(err) { console.error(err); }
+
+            doc.text("2. Foto Pertandingan 2", 14, 125);
+            try {
+                doc.addImage(imagesData.foto2, 'JPEG', 14, 130, 130, 75);
+            } catch(err) { console.error(err); }
+
+            // HALAMAN 3: SCORE SHEET
+            doc.addPage();
+            doc.setFillColor(30, 58, 138);
+            doc.rect(0, 0, 210, 25, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(14);
+            doc.text("LAMPIRAN LEMBAR SCORE SHEET", 14, 16);
+
+            doc.setTextColor(30, 41, 59);
+            doc.setFontSize(11);
+            doc.text("3. Foto Lembar Catatan Pertandingan (Score Sheet Kertas)", 14, 38);
+            try {
+                doc.addImage(imagesData.fotoScoreSheet, 'JPEG', 14, 43, 160, 100);
+            } catch(err) { console.error(err); }
+
+            const safeName = turnamen.replace(/[^a-zA-Z0-9]/g, '_');
+            doc.save(`Laporan_Wasit_${safeName}.pdf`);
+
+            alert('Laporan berhasil disusun dan file PDF berhasil diunduh!');
+        });
+    </script>
+</body>
+</html>
